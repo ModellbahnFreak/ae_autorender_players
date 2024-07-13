@@ -7,26 +7,46 @@ function fileToUrl(file, workdir) {
     return url.pathToFileURL(path.resolve(workdir, file)).toString();
 }
 
-export async function renderPlayers(workdir, aepFile, players, aerenderPath, imgNameFormat) {
+export async function renderPlayers(workdir, aepFile, players, aerenderPath) {
     for (const player of players) {
-        const playerImgName = filenameFormat(player, imgNameFormat);
-        console.log(`Starting render with image file ${playerImgName}`);
+        console.log(`Starting render for ${player.name} (${player.image}) using ${workdir} and ${aerenderPath}`);
+
+        const assets = [];
+        assets.push({
+            src: fileToUrl(player.image, workdir),
+            type: "image",
+            layerName: "Spielerfoto"
+        });
+        assets.push({
+            property: "Source Text",
+            value: player.name,
+            type: "data",
+            layerName: "Spielername"
+        });
+        assets.push({
+            property: "Source Text",
+            value: player.number,
+            type: "data",
+            layerName: "Nummer"
+        });
+        if (player.teamImage && player.teamImage.length > 0) {
+            assets.push({
+                src: fileToUrl(player.teamImage, workdir),
+                type: "image",
+                layerName: "Vereinslogo"
+            });
+        }
 
         const renderResult = await render({
             template: {
                 src: fileToUrl(aepFile, workdir),
                 composition: "main"
             },
-            assets: [
-                {
-                    src: fileToUrl(playerImgName, workdir),
-                    type: "image",
-                    layerName: "player.png"
-                }
-            ]
+            assets
         }, {
             workpath: workdir,
-            binary: aerenderPath,
+            binary: path.normalize(path.resolve(process.cwd(), aerenderPath.replace(/[/\\]/g, path.sep))),
+            debug: false
         }
         );
     }

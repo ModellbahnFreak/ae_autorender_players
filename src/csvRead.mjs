@@ -1,7 +1,8 @@
 import * as csv from "csv";
 import * as fs from "fs";
+import { filenameFormat } from "./filenameFormatter.mjs"
 
-export async function csvRead(playersFile, firstCsvLineNum, lastCsvLineNum) {
+export async function csvRead(playersFile, firstCsvLineNum, lastCsvLineNum, imgNameFormat) {
     const players = [];
     const parser = csv.parse({
         delimiter: ",",
@@ -15,7 +16,13 @@ export async function csvRead(playersFile, firstCsvLineNum, lastCsvLineNum) {
         parser.on('readable', function () {
             let record;
             while ((record = parser.read()) !== null) {
-                players.push(record);
+                players.push({
+                    image: filenameFormat(record, imgNameFormat),
+                    name: record[0],
+                    number: record[1],
+                    teamImage: record[2] + " " + record[3],
+                    teamName: ""
+                });
             }
         });
         // Catch any error

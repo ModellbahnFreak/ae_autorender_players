@@ -13,7 +13,9 @@
             ],
             "args": [
                 "--aerenderPath",
-                "./mockae/aerendermock.bat"
+                "./mockae/aerendermock.bat",
+                "--playersFile",
+                "images"
             ],
             "program": "${workspaceFolder}\\autorender.mjs"
         }

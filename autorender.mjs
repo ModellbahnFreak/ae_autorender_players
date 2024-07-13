@@ -1,7 +1,9 @@
 import { parseArgs } from "node:util";
 import { csvRead } from "./src/csvRead.mjs";
 import { renderPlayers } from "./src/render.mjs";
+import { dirRead } from "./src/dirRead.mjs"
 import * as path from "path";
+import * as fs from "fs/promises";
 
 let defaultAerenderPath = "aerender";
 switch (process.platform) {
@@ -33,7 +35,7 @@ const {
         },
         playersFile: {
             type: "string",
-            default: "./players.csv",
+            default: "./images",
             short: "p"
         },
         firstCsvLine: {
@@ -57,7 +59,7 @@ const {
         },
         imgNameFormat: {
             type: "string",
-            default: "images/{3}_{2}_{1:pad:2}_{0}.png",
+            default: "images/{3}_{2}_{1}_{0}.png",
             short: "i"
         },
         help: {
@@ -93,10 +95,17 @@ if (!isFinite(firstCsvLineNum) || !isFinite(lastCsvLineNum) || firstCsvLineNum <
 }
 
 try {
-    const players = await csvRead(path.resolve(process.cwd(), workdir, playersFile), firstCsvLineNum, lastCsvLineNum);
+    let players = [{ image: "", name: "", number: "", teamImage: "", teamName: "" }];
+
+    const playersFileAbs = path.resolve(process.cwd(), workdir, playersFile);
+    if ((await fs.lstat(playersFileAbs)).isDirectory()) {
+        players = await dirRead(playersFileAbs);
+    } else {
+        players = await csvRead(playersFileAbs, firstCsvLineNum, lastCsvLineNum, imgNameFormat);
+    }
     console.log(players);
-    await renderPlayers(path.resolve(process.cwd(), workdir), aepFile, players, aerenderPath, imgNameFormat);
     debugger;
+    await renderPlayers(path.resolve(process.cwd(), workdir), aepFile, players, aerenderPath);
 } catch (err) {
     console.error(err);
     process.exit(1);
