@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "@nexrender/core": "^1.51.5",
+    "csv": "^6.3.9"
+  },
+  "name": "ae_autorender_players",
+  "description": "- Install nodejs: `https://nodejs.org/en/download/prebuilt-installer` - Save ae file to this folder as `project.aep` - Replace Demo `players.csv` with required file - Open terminal in this folder and run:     - `npm i`     - `npm run start`",
+  "version": "1.0.0",
+  "main": "autorender.mjs",
+  "devDependencies": {},
+  "scripts": {
+    "test": "node autorender.mjs",
+    "start": "node autorender.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ModellbahnFreak/ae_autorender_players.git"
+  },
+  "author": "ModellbahnFreak",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ModellbahnFreak/ae_autorender_players/issues"
+  },
+  "homepage": "https://github.com/ModellbahnFreak/ae_autorender_players#readme"
+}
