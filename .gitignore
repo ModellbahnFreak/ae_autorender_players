@@ -1,4 +1,6 @@
-mockae/aerendermock.log
+mockae/*
+!mockae/aerendermock.bat
+!mockae/Scripts/Startup/commandLineRenderer.jsx
 workdir/*
 !workdir/players.csv
 !workdir/images/ABMusterhausen*
