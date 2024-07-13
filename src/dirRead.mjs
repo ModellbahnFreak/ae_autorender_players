@@ -5,13 +5,16 @@ export async function dirRead(dir) {
     const players = [];
     const vereine = await fs.readdir(dir, { withFileTypes: true });
     for (const verein of vereine) {
-        if (verein.isDirectory()) {
+        if (verein.isDirectory() && !verein.name.startsWith("#")) {
             const vereinParts = verein.name.split("_");
             const allSpieler = await fs.readdir(path.join(dir, verein.name), { withFileTypes: true });
             let vereinslogo = "";
             const vereinPlayers = [];
 
             for (const spieler of allSpieler) {
+                if (spieler.name.startsWith("#")) {
+                    continue;
+                }
                 if (spieler.name.toLowerCase().startsWith(verein.name.toLowerCase() + "_logo") || spieler.name.toLowerCase().startsWith(vereinParts[1].toLowerCase() + "_logo")) {
                     vereinslogo = path.join(dir, verein.name, spieler.name);
                     continue;
