@@ -44,7 +44,7 @@ export async function renderPlayers(workdir, aepFile, players, aerenderPath) {
             },
             assets
         }, {
-            workpath: workdir,
+            workpath: path.join(workdir, "_renderDir"),
             binary: path.normalize(path.resolve(process.cwd(), aerenderPath.replace(/[/\\]/g, path.sep))),
             debug: false
         }

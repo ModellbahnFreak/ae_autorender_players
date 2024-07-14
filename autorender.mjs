@@ -105,6 +105,8 @@ try {
     }
     console.log(players);
     debugger;
+
+    await fs.mkdir(path.resolve(process.cwd(), path.join(workdir, "_renderDir")), { recursive: true });
     await renderPlayers(path.resolve(process.cwd(), workdir), aepFile, players, aerenderPath);
 } catch (err) {
     console.error(err);
