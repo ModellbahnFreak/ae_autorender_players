@@ -1,4 +1,4 @@
-import { render } from "@nexrender/core";
+import { render, init } from "@nexrender/core";
 import * as path from "path";
 import * as url from "url";
 import { filenameFormat } from "./filenameFormatter.mjs";
@@ -45,9 +45,17 @@ export async function renderPlayers(workdir, aepFile, players, aerenderPath) {
             assets
         }, {
             workpath: path.join(workdir, "_renderDir"),
-            binary: path.normalize(path.resolve(process.cwd(), aerenderPath.replace(/[/\\]/g, path.sep))),
+            binary: aerenderPath?.length > 0 ? path.normalize(path.resolve(process.cwd(), aerenderPath.replace(/[/\\]/g, path.sep))) : "",
             debug: false
         }
         );
     }
+}
+
+export async function initRender(workdir, aerenderPath) {
+    await init({
+        workpath: path.join(workdir, "_renderDir"),
+        binary: aerenderPath?.length > 0 ? path.normalize(path.resolve(process.cwd(), aerenderPath.replace(/[/\\]/g, path.sep))) : "",
+        debug: false
+    });
 }

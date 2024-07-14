@@ -24,7 +24,8 @@ const {
         aerenderPath,
         workdir,
         imgNameFormat,
-        help
+        help,
+        init
     }
 } = parseArgs({
     options: {
@@ -50,7 +51,7 @@ const {
         },
         aerenderPath: {
             type: "string",
-            default: defaultAerenderPath,
+            default: "",
         },
         workdir: {
             type: "string",
@@ -66,6 +67,10 @@ const {
             type: "boolean",
             default: false,
             short: "h"
+        },
+        init: {
+            type: "boolean",
+            default: false,
         }
     }
 });
@@ -83,6 +88,11 @@ Arguments:
                         Cas use raw column spaces and non ascii removed {0}, column lowercase {0:lower}, column uppercase {0:upper}, column 0-padded to n digits {0:pad:n}
 --help          -h      Displays this help and exits
 `)
+    process.exit(0);
+}
+
+if (init) {
+    await renderPlayers(path.resolve(process.cwd(), workdir), aerenderPath);
     process.exit(0);
 }
 
