@@ -1,6 +1,6 @@
 import { parseArgs } from "node:util";
 import { csvRead } from "./src/csvRead.mjs";
-import { renderPlayers } from "./src/render.mjs";
+import { renderPlayers, initRender } from "./src/render.mjs";
 import { dirRead } from "./src/dirRead.mjs"
 import * as path from "path";
 import * as fs from "fs/promises";
@@ -92,7 +92,9 @@ Arguments:
 }
 
 if (init) {
-    await renderPlayers(path.resolve(process.cwd(), workdir), aerenderPath);
+    console.log("Initializing renderer");
+    await initRender(path.resolve(process.cwd(), workdir), aerenderPath);
+    console.log("Render initialized");
     process.exit(0);
 }
 
